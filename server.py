@@ -5,6 +5,10 @@ import operator
 
 app = Flask(__name__)
 
+@app.route('/')
+def index():
+    return "5oiR5Zac5qyi5L2g"
+
 @app.route('/api/get_function',methods = ['POST'])
 def get_function():
     ops = { '+': operator.add, '-': operator.sub ,'*':operator.mul}
@@ -52,5 +56,5 @@ def get_function():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True,host='0.0.0.0',port=5000)
 
