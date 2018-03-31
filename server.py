@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return "5oiR5Zac5qyi5L2g"
+    return "eGl3ZWk="
 
 @app.route('/api/get_function',methods = ['POST'])
 def get_function():
