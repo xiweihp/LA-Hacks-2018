@@ -1,23 +1,48 @@
-        let parameters = ["number":"2","object0":"int,1","object1":"int,2","operator0":"+"
-        guard let url = URL(string: "https://169.232.117.201/get_fuction") else { return }
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        guard let httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: []) else { return }
-        request.httpBody = httpBody
-        
-        let session = URLSession.shared
-        session.dataTask(with: request) { (data, response, error) in
-            if let response = response {
-                print(response)
-            }
-            
-            if let data = data {
+//
+//  ViewController.swift
+//  1
+//
+//  Created by Weijia Shi on 3/31/18.
+//  Copyright  2018 Weijia Shi. All rights reserved.
+//
+
+import UIKit
+
+class ViewController: UIViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let json = ["number":"2","object0":"int,2","object1":"str,3","operator0":"+"]
+        do{
+            let jsonData = try JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
+            let url = URL(string: "http://169.232.117.127:5000/api/get_function")!
+            let request = NSMutableURLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            request.httpBody = jsonData
+            let task = URLSession.shared.dataTask(with: request as URLRequest){ data, response, error in
+                if error != nil{
+                    print("Error -> \(error)")
+                    return
+                }
                 do {
-                    let json = try JSONSerialization.jsonObject(with: data, options: [])
-                    print(json)
+                    let result = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String:AnyObject]
+                    print("Result -> \(result)")
                 } catch {
-                    print(error)
+                    print("Error -> \(error)")
                 }
             }
-        }.resume()
+            task.resume()
+        } catch {
+            print(error)
+        // Do any additional setup after loading the view, typically from a nib.
+    }
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+
+}
