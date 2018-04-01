@@ -10,7 +10,7 @@ app = Flask(__name__)
 def index():
     return "eGl3ZWk="
 
-@app.route(/api/function_result)
+@app.route('/api/function_result')
 def function_result():
     datastring = request.args.get('param')
     datadict = {}
