@@ -3,7 +3,9 @@ from flask import Flask
 from flask import request
 import operator
 
-app = Flask(__name__)
+
+#IPv4 Address: 169.232.117.127
+
 
 @app.route('/')
 def index():
