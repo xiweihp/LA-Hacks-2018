@@ -1,0 +1,24 @@
+        let json = ["number":"2","object0":"int,2","object1":"int,3","operator0":"+"]
+        do{
+            let jsonData = try NSJSONSerialization.dataWithJSONObject(json, options: .PrettyPrinted)
+            let url = NSURL(string: "http://169.232.117.201:5000/api/get_function")!
+            let request = NSMutableURLRequest(URL: url)
+            request.HTTPMethod = "POST"
+            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            request.HTTPBody = jsonData
+            let task = NSURLSession.sharedSession().dataTaskWithRequest(request){ data, response, error in
+                if error != nil{
+                    print("Error -> \(error)")
+                    return
+                }
+                do {
+                    let result = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as? [String:AnyObject]
+                    print("Result -> \(result)")
+                } catch {
+                    print("Error -> \(error)")
+                }
+            }
+            task.resume()
+        } catch {
+            print(error)
+        }
