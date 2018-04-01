@@ -37,8 +37,10 @@ def get_function():
         operatorlist.append(datadict["operator%d"%(y)])
         if(datadict["operator%d"%(y)] != '+'):
             allplus = False
-    if(not nostring and not allstring):
-        return jsonify({'error':'cannot do the function operation on string type'})
+    if not nostring and not allstring:
+        return jsonify({'error':'cannot do operation between string and int/float'})
+    elif allstring and not allplus:
+        return jsonify({'error':'cannot do the operation on string'})
     elif allstring and allplus:
         for i in range(0,number):
             result = result + valuedict['object%d'%(i)][1]
