@@ -2,9 +2,7 @@ import json
 from flask import Flask,request,jsonify
 import operator
 
-
-#IPv4 Address: 169.232.117.127
-
+app = Flask(__name__)
 
 @app.route('/')
 def index():
@@ -39,7 +37,7 @@ def get_function():
         operatorlist.append(datadict["operator%d"%(y)])
         if(datadict["operator%d"%(y)] != '+'):
             allplus = False
-    if(not nostring and not allplus):
+    if(not nostring and not allstring):
         return jsonify({'error':'cannot do the function operation on string type'})
     elif allstring and allplus:
         for i in range(0,number):
