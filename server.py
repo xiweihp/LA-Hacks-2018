@@ -1,5 +1,6 @@
 import json
-from flask import Flask,request,jsonify
+from flask import Flask
+from flask import request
 import operator
 
 app = Flask(__name__)
@@ -42,6 +43,7 @@ def get_function():
     elif allstring and allplus:
         for i in range(0,number):
             result = result + valuedict['object%d'%(i)][1]
+            return jsonify({'type':'str','value':result})
     else:
         operator1 = operatorlist[0]
         result = ops[operator1](float(valuedict['object0'][1]),float(valuedict['object1'][1]))
@@ -50,9 +52,11 @@ def get_function():
             result = ops[tempope](float(result),float(valuedict['object%d'%(i)][1]))
         if(not existfloat):
             result = int(result)
+            return jsonify({'type':'int','value':result})
         result  =str(result)
-    return jsonify({'message':result})
+    return jsonify({'type':'float','value':result})
 
 
 if __name__ == "__main__":
     app.run(debug=True,host='0.0.0.0',port=5000)
+
