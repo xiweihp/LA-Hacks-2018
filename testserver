@@ -1,21 +1,7 @@
-//
-//  ViewController.swift
-//  1
-//
-//  Created by Weijia Shi on 3/31/18.
-//  Copyright  2018 Weijia Shi. All rights reserved.
-//
-
-import UIKit
-
-class ViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        let json = ["number":"2","object0":"int,2","object1":"str,3","operator0":"+"]
+        let json = ["param":"function: 2 + int:3 int:5"]
         do{
             let jsonData = try JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
-            let url = URL(string: "http://169.232.117.127:5000/api/get_function")!
+            let url = URL(string: "http://169.232.117.127:5000/api/function_result")!
             let request = NSMutableURLRequest(url: url)
             request.httpMethod = "POST"
             request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
@@ -26,8 +12,8 @@ class ViewController: UIViewController {
                     return
                 }
                 do {
-                    let result = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String:AnyObject]
-                    print("Result -> \(result)")
+                    let result = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? String
+                    self.test(data: result!)
                 } catch {
                     print("Error -> \(error)")
                 }
@@ -37,12 +23,3 @@ class ViewController: UIViewController {
             print(error)
         // Do any additional setup after loading the view, typically from a nib.
     }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
-}
